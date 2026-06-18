@@ -8,7 +8,7 @@ function SignUp() {
                 <div className="auth-content">
                     <p className="eyebrow">Join the Community</p>
                     <h1>
-                        Create your <span>Urbannet</span> account today!
+                        Create your <span>Urban Planner</span> account today!
                     </h1>
                     <p className="intro-text">Start planning with Real People Real Services</p>
                     <form className="auth-form">

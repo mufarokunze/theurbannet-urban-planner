@@ -14,7 +14,7 @@ function Header() {
         <Link to="/plans">Plans</Link>
         <Link to="/marketplace">Marketplace</Link>
         <Link to="/login" className="nav-button">
-          Log In
+          Log In/ Sign Up
         </Link>
       </nav>
     </header>
