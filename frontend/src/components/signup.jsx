@@ -24,14 +24,26 @@ function SignUp() {
                             </label>
                         </div>
 
+                        <div className="name-row">
+                            <label className="name-label">
+                                First Name
+                                <input type="text" name="first_name" placeholder="Enter your First Name" required />
+                            </label>
+                            <label className="name-label">
+                                Last Name
+                                <input type="text" name="last_name" placeholder="Enter your Last Name" required />
+                            </label>
+
+                        </div>
+
                         <label>
                             Email 
-                            <input type="email" placeholder="Enter your email" required />
+                            <input type="email" name="email" placeholder="Enter your email" required />
                         </label>
 
                         <label>
                             Password 
-                            <input type="password" placeholder="Create a password" required />
+                            <input type="password" name="password" placeholder="Create a password" required />
                         </label>
 
                         <button type="submit">Sign Up</button>

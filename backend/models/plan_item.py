@@ -12,9 +12,9 @@ class PlanItem(Base):
 
     plan_item_id = Column(BINARY_UUID, primary_key=True, default=lambda: str(uuid.uuid4()))
     plan_id = Column(BINARY_UUID, ForeignKey("plans.plan_id"), nullable=False)
-    category_id = Column(Integer, ForeignKey("Service_Categories.category_id"), nullable=False)
-    provider_id = Column(BINARY_UUID, ForeignKey("Service_Providers.provider_id"), nullable=True)
-    provider_service_id = Column(BINARY_UUID, ForeignKey("Provider_Services.service_id"), nullable=True)
+    # category_id = Column(Integer, ForeignKey("service_categories.category_id"), nullable=False)
+    provider_id = Column(BINARY_UUID, ForeignKey("service_providers.provider_id"), nullable=True)
+    provider_service_id = Column(BINARY_UUID, ForeignKey("provider_services.service_id"), nullable=True)
 
     day_number = Column(Integer, nullable=False, default=1)
     sort_order = Column(Integer, nullable=False, default=1)

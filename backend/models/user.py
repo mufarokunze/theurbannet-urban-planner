@@ -18,7 +18,7 @@ class User(Base):
     phone_number = Column(String(20), nullable=True)
     user_type = Column(Enum('customer', 'provider', 'admin', name = 'user_type_enum'), nullable=False, default='customer')
     created_at = Column(DateTime, server_default=func.now())
-    updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
+    # updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
 
     # Relationships
     customer_profile = relationship("Customer", back_populates="user", uselist=False, cascade="all, delete-orphan")

@@ -2,14 +2,14 @@ import uuid
 from datetime import datetime, timezone
 
 from database.db import Base, BINARY_UUID
-from sqlalchemy import Column, String, Date, Numeric, Enum, Datetime, ForeignKey, func 
+from sqlalchemy import Column, String, Date, Numeric, Enum, DateTime, ForeignKey, func 
 from sqlalchemy.orm import relationship
 
 class Plan(Base):
     __tablename__ = "plans"
 
     plan_id = Column(BINARY_UUID, primary_key=True, default=uuid.uuid4)
-    customer_id = Column(BINARY_UUID, ForeignKey("Customers.customer_id"), nullable=False)
+    customer_id = Column(BINARY_UUID, ForeignKey("customers.customer_id"), nullable=False)
     planner_id = Column(BINARY_UUID, ForeignKey("users.user_id"), nullable=False)
     plan_name = Column(String(150), nullable=False)
     event_type = Column(String(100), nullable=False)

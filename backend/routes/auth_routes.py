@@ -27,11 +27,11 @@ def register():
         ).decode("utf-8")
 
         new_user = User(
-            first_name=data["first_name"],
-            last_name=data["last_name"],
+            first_name=data.get("first_name", "TestFirstName"),
+            last_name=data.get("last_name", "TestLastName"),
             email=data["email"],
             password_hash=hashed_password,
-            role=data.get("role", "customer")
+            user_type=data.get("role", "customer")
         )
 
         session.add(new_user)
@@ -39,7 +39,7 @@ def register():
 
         return jsonify({
             "message": "User registered successfully",
-            "user_id": new_user.user_id
+            "user_id": str(new_user.user_id) # Convert UUID to string for JSON serialization
         }), 201
 
     except Exception as e:
@@ -69,17 +69,17 @@ def login():
         if not password_is_valid:
             return jsonify({"message": "Invalid email or password"}), 401
 
-        token = generate_token(user.user_id, user.role)
+        token = generate_token(user.user_id, user.user_type)
 
         return jsonify({
             "message": "Login successful",
             "token": token,
             "user": {
-                "user_id": user.user_id,
+                "user_id": str(user.user_id),
                 "first_name": user.first_name,
                 "last_name": user.last_name,
                 "email": user.email,
-                "role": user.role
+                "user_type": user.user_type
             }
         }), 200
 
@@ -99,6 +99,6 @@ def get_current_user(current_user):
             "first_name": current_user.first_name,
             "last_name": current_user.last_name,
             "email": current_user.email,
-            "role": current_user.role
+            "user_type": current_user.user_type
         }
     }), 200

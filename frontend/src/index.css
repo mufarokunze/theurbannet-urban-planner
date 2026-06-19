@@ -144,6 +144,17 @@ a {
     justify-content: space-around;
     margin-bottom: 20px;
   }
+
+  .name-row {
+    display: flex;
+    gap: 10px;
+
+    .name-label {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+  }
 }
 
 .auth-form label {
