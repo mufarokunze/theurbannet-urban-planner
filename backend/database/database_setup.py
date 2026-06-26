@@ -1,12 +1,12 @@
 from database.db import engine, Base
 
-from backend.models.user import User
-from backend.models.customer import Customer
-from backend.models.service_provider import ServiceProvider
-from backend.models.provider_service import ProviderService
-from backend.models.service_category import ServiceCategory
-from backend.models.plan import Plan
-from backend.models.plan_item import PlanItem
+from models.user import User
+from models.customer import Customer
+from models.service_provider import ServiceProvider
+from models.provider_service import ProviderService
+# from models.service_category import ServiceCategory
+from models.plan import Plan
+from models.plan_item import PlanItem
 
 Base.metadata.create_all(engine)
 
