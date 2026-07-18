@@ -1,9 +1,11 @@
 import { Routes, Route } from "react-router-dom"; 
 import Header from "./components/Header";
-import Home from "./components/home";
-import SignUp from "./components/signup";
-import Login from "./components/login";
-import Dashboard from "./components/dashboard";
+import Home from "./pages/home";
+import SignUp from "./pages/signup";
+import Login from "./pages/login";
+import Dashboard from "./pages/dashboard";
+import CustomerDashboard from "./pages/customer_dashboard"; // Assuming you saved it here
+import ProviderDashboard from "./pages/provider_dashboard";
 import "./index.css";
 
 
@@ -25,6 +27,10 @@ function App() {
 
         {/* This is for the dashboard page */}
         <Route path="/dashboard" element={<Dashboard />} />
+        {/* Customer*/}
+        <Route path="/customer_dashboard" element={<CustomerDashboard />} />
+        {/* Provider*/}
+        <Route path="/provider_dashboard" element={<ProviderDashboard />} />
       </Routes>
     </div>
   );

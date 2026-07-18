@@ -10,9 +10,9 @@ from sqlalchemy.orm import relationship
 class PlanItem(Base):
     __tablename__ = "plan_items"
 
-    plan_item_id = Column(BINARY_UUID, primary_key=True, default=lambda: str(uuid.uuid4()))
+    plan_item_id = Column(BINARY_UUID, primary_key=True, default=uuid.uuid4)
     plan_id = Column(BINARY_UUID, ForeignKey("plans.plan_id"), nullable=False)
-    # category_id = Column(Integer, ForeignKey("service_categories.category_id"), nullable=False)
+    category_id = Column(Integer, ForeignKey("service_categories.category_id"), nullable=False)
     provider_id = Column(BINARY_UUID, ForeignKey("service_providers.provider_id"), nullable=True)
     provider_service_id = Column(BINARY_UUID, ForeignKey("provider_services.service_id"), nullable=True)
 
@@ -26,5 +26,6 @@ class PlanItem(Base):
 
     # Relationships
     plan = relationship("Plan", back_populates="plan_items")
+    category = relationship("ServiceCategory", back_populates="plan_items")
     provider = relationship("ServiceProvider", foreign_keys=[provider_id])
     service_booked = relationship("ProviderService", foreign_keys=[provider_service_id])

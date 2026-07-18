@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import logo from "../assets/urbannet-logo.png";
+import logo from "../assets/urbannet-logo-black.png";
+import "./Header.css"; // 
 
 function Header() {
   return (
@@ -9,14 +10,26 @@ function Header() {
       </Link>
 
       <nav className="nav-links">
-        <Link to="/">Home</Link>
-        <Link to="/dashboard">Dashboard</Link>
-        <Link to="/plans">Plans</Link>
-        <Link to="/marketplace">Marketplace</Link>
+        <Link to="/" className="nav-link">
+          Home
+        </Link>
+        <Link to="/dashboard" className="nav-link">
+          Dashboard
+        </Link>
+        <Link to="/customer_dashboard" className="nav-link">
+          Customer Dashboard
+        </Link>
+        <Link to="/provider_dashboard" className="nav-link">
+          Provider Dashboard
+        </Link>
+        {/* <Link to="/marketplace" className="nav-link">
+          Marketplace
+        </Link> */}
+      </nav>
+
         <Link to="/login" className="nav-button">
           Log In/ Sign Up
         </Link>
-      </nav>
     </header>
   );
 }

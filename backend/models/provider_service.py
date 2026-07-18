@@ -12,7 +12,7 @@ class ProviderService(Base):
 
     service_id = Column(BINARY_UUID, primary_key=True, default=lambda: uuid.uuid4())
     provider_id = Column(BINARY_UUID, ForeignKey("service_providers.provider_id"), nullable=False)
-    # category_id = Column(Integer, ForeignKey("service_categories.category_id"), nullable=False)
+    category_id = Column(Integer, ForeignKey("service_categories.category_id"), nullable=False)
     service_name = Column(String(150), nullable=False)
     base_price = Column(Numeric(10, 2), nullable=False, default=0.00)
     price_unit = Column(Enum('fixed', 'per_event', 'per_hour', 'per_guest', name='price_unit_enum'), nullable=False, default='per_event')
@@ -22,4 +22,4 @@ class ProviderService(Base):
 
     # Relationships
     provider = relationship("ServiceProvider", back_populates="services")
-    # category = relationship("ServiceCategory")
+    category = relationship("ServiceCategory", back_populates="provider_services")

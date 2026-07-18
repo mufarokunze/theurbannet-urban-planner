@@ -1,38 +1,88 @@
 import os
 import uuid
-from sqlalchemy import create_engine, TypeDecorator, BINARY
-from sqlalchemy.orm import sessionmaker, declarative_base
+
 from dotenv import load_dotenv
+from sqlalchemy import BINARY, TypeDecorator, create_engine
+from sqlalchemy.engine import URL
+from sqlalchemy.orm import declarative_base, sessionmaker
+
 
 load_dotenv()
 
-engine = create_engine(
-    f"mysql+pymysql://{os.getenv('DB_USER')}:{os.getenv('DB_PASS')}"
-    f"@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}",
-    connect_args={"ssl": {"ca": os.getenv("DB_CA")}}
+
+database_url = URL.create(
+    drivername="mysql+pymysql",
+    username=os.getenv("DB_USER"),
+    password=os.getenv("DB_PASS"),
+    host=os.getenv("DB_HOST"),
+    port=int(os.getenv("DB_PORT", "3306")),
+    database=os.getenv("DB_NAME"),
 )
+
+
+connect_args = {}
+
+database_ca = os.getenv("DB_CA")
+
+if database_ca:
+    connect_args["ssl"] = {
+        "ca": database_ca
+    }
+
+
+engine = create_engine(
+    database_url,
+    connect_args=connect_args,
+    pool_pre_ping=True,
+)
+
 
 class BINARY_UUID(TypeDecorator):
     """
-    This is class which will safely convert between Python's uuid.UUID objects and MySQL's BINARY(16) format.
-    It ensures that UUIDs are stored efficiently in the database while still being easy to work with
+    Converts Python UUID values to MySQL BINARY(16) values and
+    converts database BINARY(16) values back into uuid.UUID objects.
     """
+
     impl = BINARY(16)
     cache_ok = True
 
     def process_bind_param(self, value, dialect):
-        # If string representation of UUID is passed, convert it to bytes. If it's already a UUID object, convert to bytes directly.
         if value is None:
-            return value
+            return None
+
         if isinstance(value, uuid.UUID):
             return value.bytes
-        return uuid.UUID(value).bytes
+
+        if isinstance(value, memoryview):
+            return value.tobytes()
+
+        if isinstance(value, (bytes, bytearray)):
+            return bytes(value)
+
+        if isinstance(value, str):
+            return uuid.UUID(value).bytes
+
+        raise ValueError(
+            f"Unsupported UUID value type: {type(value).__name__}"
+        )
 
     def process_result_value(self, value, dialect):
-        # this is to convert the 16-byte binary data back into a UUID object when retrieving from the database
         if value is None:
+            return None
+
+        if isinstance(value, uuid.UUID):
             return value
-        return uuid.UUID(bytes=value)
-    
+
+        if isinstance(value, memoryview):
+            value = value.tobytes()
+
+        return uuid.UUID(bytes=bytes(value))
+
+
 Base = declarative_base()
-Session = sessionmaker(bind=engine)
+
+Session = sessionmaker(
+    bind=engine,
+    autoflush=False,
+    autocommit=False,
+)

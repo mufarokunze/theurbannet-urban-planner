@@ -2,7 +2,7 @@ import uuid
 from datetime import datetime, timezone
 
 from database.db import Base, BINARY_UUID
-from sqlalchemy import Column, String, Date, Numeric, Enum, DateTime, ForeignKey, func 
+from sqlalchemy import Column, Integer, String, Date, Numeric, Enum, DateTime, ForeignKey, Text, func 
 from sqlalchemy.orm import relationship
 
 class Plan(Base):
@@ -15,7 +15,10 @@ class Plan(Base):
     event_type = Column(String(100), nullable=False)
     event_location = Column(String(255), nullable=True)
     event_date = Column(Date, nullable=True)
-    plan_type = Column(Enum('guided', 'self_managed', name='plan_type_enum'), nullable=False)
+    guest_count = Column(Integer, nullable=True)
+    theme = Column(String(150), nullable=True)
+    notes = Column(Text, nullable=True)
+    plan_type = Column(Enum('guided', 'self_managed', name='plan_type_enum'), nullable=False, default="guided")
     budget = Column(Numeric(10, 2), nullable=True)
     status = Column(Enum('draft', 'saved', 'completed', name='plan_status_enum'), nullable=False, default='draft')
 

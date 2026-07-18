@@ -1,12 +1,13 @@
 import React, {useState} from "react";
 import { Link, useNavigate } from "react-router-dom";
 import authPhoto from "../assets/login_image.png";
+import "./login.css";
 
 function Login() {
     // defining the constants for the form inputs and the error message
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setErrorMessage] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
 
     const handlelogin = async (e) => {
@@ -14,7 +15,7 @@ function Login() {
         setErrorMessage(""); 
 
         try {
-            const response = await fetch("http://localhost:5000/api/login", {
+            const response = await fetch("http://127.0.0.1:5000/api/auth/login", {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password })
@@ -47,7 +48,7 @@ function Login() {
                     <h1>Access your <span>Workspace</span></h1>
                     <p className="intro-text">Log in to manage your events and services</p>
 
-                    {error && <p style={{ color: 'red', marginBottom: '10px' }}>{errorMessage}</p>}
+                    {errorMessage && <p style={{ color: 'red', marginBottom: '10px' }}>{errorMessage}</p>}
 
                     <form action="" className="auth-form" onSubmit={handlelogin}>
                         <label>

@@ -6,7 +6,7 @@ from models.user import User
 from models.customer import Customer                   # <-- ADD THIS
 from models.service_provider import ServiceProvider
 from utils.jwt_utils import generate_token
-from utils.auth_decorator import token_required7
+from utils.auth_decorator import token_required
 
 
 auth_bp = Blueprint("auth", __name__)
